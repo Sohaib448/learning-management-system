@@ -14,8 +14,9 @@ SECRET_KEY = 'django-insecure-*2wq^6x3$7&+q)twt3d2=5fw=r^yo74_+@t09)0pe3prwt2$@p
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "lms-backend-n36s.onrender.com",
     "localhost",
+    "127.0.0.1"
 ]
 
 
