@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
 ]
 
 # =========================
-# APPLICATIONS
+# APPLICATIONS 
 # =========================
 
 INSTALLED_APPS = [
@@ -145,6 +145,7 @@ AUTH_USER_MODEL = "users.User"
 
 CORS_ALLOWED_ORIGINS = [
     "https://own-lms.vercel.app",
-]
+    "https://learning-management-system-mid81vrcl-sohaibnisars-projects.vercel.app"
+] 
 
 CORS_ALLOW_CREDENTIALS = True
