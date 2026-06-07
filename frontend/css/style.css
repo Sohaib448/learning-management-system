@@ -1,0 +1,194 @@
+body {
+    background: #0f172a;
+    color: #f1f5f9;   /* ✅ global light text fix */
+    font-family: Arial, sans-serif;
+}
+
+/* FORCE ALL TEXT TO BE LIGHT (IMPORTANT FIX) */
+h1, h2, h3, h4, h5, h6, p, span, label {
+    color: #f1f5f9;
+}
+
+/* LOGIN CARD */
+.login-container {
+    width: 350px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 30px;
+    background: #1e293b;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #334155;
+    color: #f1f5f9;   /* FIXED */
+}
+
+/* PLACEHOLDER TEXT */
+input::placeholder {
+    color: #94a3b8;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #1e293b;
+    padding: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: #f1f5f9;
+    padding: 10px;
+    text-decoration: none;
+    margin-top: 10px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #334155;
+}
+
+/* MAIN CONTENT */
+.main {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+/* CARDS */
+.card-box {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 10px 0;
+    color: #f1f5f9;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ERROR TEXT (LOGIN) */
+#error {
+    color: #f87171;
+    margin-top: 10px;
+}
+
+* {
+    color: #f1f5f9 !important;
+}
+
+/* Keep buttons readable */
+button {
+    color: white !important;
+}
+
+/* Keep links visible */
+a {
+    color: #60a5fa !important;
+}
+
+/* Optional: error text override */
+#error {
+    color: #f87171 !important;
+}
+
+/* ONLY fix input text color */
+#title,
+#description,
+#deadline,
+#total_marks {
+    color: #000 !important;
+}
+
+/* =========================
+   MAKE DASHBOARD TEXT VISIBLE
+========================= */
+
+.main h2,
+.main h3,
+.main h4 {
+    color: #1a1a1a !important;
+    font-weight: 600;
+}
+
+/* Sidebar headings */
+.sidebar h4 {
+    color: #ffffff !important;
+}
+
+/* Sidebar links */
+.sidebar a {
+    color: #ffffff !important;
+}
+
+/* Section titles fix */
+#dashboardSection h2,
+#assignmentsSection h3,
+#submissionsSection h3 {
+    color: #111111 !important;
+    font-weight: 700;
+}
+
+/* ===== LOGIN ROLE OPTIONS FIX ===== */
+.role-select,
+select[name="role"],
+#role {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* dropdown options */
+select option {
+    background-color: #ffffff;
+    color: #111111;
+}
+
+/* ===== SIGNUP FORM DROPDOWNS FIX ===== */
+.signup-form select,
+.signup-form select[name="role"],
+.signup-form select[name="shift"] {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* dropdown options visibility */
+.signup-form select option {
+    background-color: #ffffff;
+    color: #111111;
+}
+

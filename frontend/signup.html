@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Signup</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =======================
+   BACKGROUND
+======================= */
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    background: #0b1220;
+    overflow: hidden;
+}
+
+/* glow */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,0.18), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(168,85,247,0.18), transparent 40%);
+}
+
+/* =======================
+   CARD (SMALLER HEIGHT)
+======================= */
+
+.card {
+    width: 420px;          /* 🔥 smaller width */
+    max-height: 82vh;      /* 🔥 fits screen */
+    padding: 18px;
+
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* title */
+h2 {
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    margin-bottom: 4px;
+}
+
+p {
+    font-size: 12px;
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+/* =======================
+   INPUTS (SMALL SIZE)
+======================= */
+
+input, select {
+    width: 100%;
+    padding: 8px 10px;     /* 🔥 smaller */
+    margin-bottom: 8px;    /* 🔥 tighter spacing */
+
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+
+    background: rgba(255,255,255,0.05);
+    color: white;
+
+    font-size: 13px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #94a3b8;
+}
+
+/* focus */
+input:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+}
+
+/* =======================
+   2 COLUMN GRID (IMPORTANT)
+======================= */
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* =======================
+   BUTTON
+======================= */
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* back button */
+.back {
+    margin-top: 6px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.back a {
+    color: #94a3b8;
+    text-decoration: none;
+}
+
+.back a:hover {
+    color: white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>Create Account</h2>
+    <p>Student / Teacher Signup</p>
+
+    <select id="role" onchange="toggleForm()">
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+    </select>
+
+    <!-- STUDENT -->
+    <div id="studentForm">
+
+        <div class="grid-2">
+            <input placeholder="Full Name">
+            <input placeholder="Roll No">
+        </div>
+
+        <div class="grid-2">
+            <input placeholder="Father Name">
+            <input placeholder="Section">
+        </div>
+
+        <div class="grid-2">
+            <select>
+                <option>Morning</option>
+                <option>Evening</option>
+            </select>
+            <input placeholder="Phone">
+        </div>
+
+        <input placeholder="Email">
+
+    </div>
+
+    <!-- TEACHER -->
+    <div id="teacherForm" style="display:none">
+
+        <div class="grid-2">
+            <input placeholder="First Name">
+            <input placeholder="Last Name">
+        </div>
+
+        <div class="grid-2">
+            <input placeholder="Father Name">
+            <input placeholder="Subject">
+        </div>
+
+        <input placeholder="Email">
+
+        <div class="grid-2">
+            <input placeholder="Contact">
+            <select>
+                <option>Morning</option>
+                <option>Evening</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- COMMON -->
+    <input placeholder="Username">
+    <input type="password" placeholder="Password">
+
+    <button>Submit Request</button>
+
+    <div class="back">
+        <a href="index.html">← Back to Login</a>
+    </div>
+
+</div>
+
+<script>
+function toggleForm() {
+    const role = document.getElementById("role").value;
+
+    document.getElementById("studentForm").style.display =
+        role === "student" ? "block" : "none";
+
+    document.getElementById("teacherForm").style.display =
+        role === "teacher" ? "block" : "none";
+}
+
+toggleForm();
+</script>
+
+</body>
+</html>

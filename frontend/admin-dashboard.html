@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h4>Admin Panel</h4>
+
+    <a href="#" onclick="showSection('dashboardSection')">Dashboard</a>
+    <a href="#" onclick="showSection('usersSection')">Pending Requests</a>
+    <a href="#" onclick="showSection('approvedUsersSection')">Users</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+
+    <!-- DASHBOARD -->
+    <div id="dashboardSection">
+        <h2>Admin Dashboard</h2>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card-box" onclick="showSection('approvedUsersSection')">
+                    <h5>Total Users</h5>
+                    <p id="totalUsers">0</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-box" onclick="loadApprovedUsers('teacher'); showSection('approvedUsersSection');">
+                    <h5>Teachers</h5>
+                    <p id="teachers">0</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-box" onclick="loadApprovedUsers('student'); showSection('approvedUsersSection');">
+                    <h5>Students</h5>
+                    <p id="students">0</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-box" onclick="showSection('usersSection')">
+                    <h5>Pending Requests</h5>
+                    <p id="pendingUsers">0</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PENDING -->
+    <div id="usersSection" style="display:none">
+        <h3>Pending Requests</h3>
+        <div id="users"></div>
+    </div>
+
+    <!-- APPROVED -->
+    <div id="approvedUsersSection" style="display:none">
+
+        <h3>Approved Users</h3>
+
+        <div class="btn-group mb-3">
+            <button class="btn btn-primary" onclick="loadApprovedUsers('student')">Students</button>
+            <button class="btn btn-success" onclick="loadApprovedUsers('teacher')">Teachers</button>
+        </div>
+
+        <div id="approvedUsers"></div>
+    </div>
+
+    <!-- ❌ REJECTED -->
+    <div id="rejectedSection" style="display:none">
+        <h3>Rejected Requests</h3>
+        <div id="rejectedUsers"></div>
+    </div>
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+</html>

@@ -1,47 +1,52 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
-from rest_framework import status
 
 from .models import Assignment
 from .serializers import AssignmentSerializer
 
 
-# ✅ Teacher Permission
-from rest_framework.permissions import BasePermission
-
-
+# =========================
+# TEACHER PERMISSION
+# =========================
 class IsTeacher(BasePermission):
-
     def has_permission(self, request, view):
-
-        print("DEBUG USER:", request.user)
-        print("DEBUG ROLE:", getattr(request.user, "role", None))
-
-        if not request.user or not request.user.is_authenticated:
-            return False
-
-        return request.user.role == "teacher"
+        return (
+            request.user.is_authenticated and
+            getattr(request.user, "role", None) == "teacher"
+        )
 
 
+# =========================
+# VIEWSET
+# =========================
 class AssignmentViewSet(viewsets.ModelViewSet):
-
     serializer_class = AssignmentSerializer
-    permission_classes = [IsAuthenticated, IsTeacher]
+    permission_classes = [IsAuthenticated]
 
+    # ✅ Everyone can view
     def get_queryset(self):
-        return Assignment.objects.filter(owner=self.request.user)
+        return Assignment.objects.all().order_by("-created_at")
 
-    # 🧨 HARD BLOCK (ADD THIS HERE)
+    # ✅ Create assignment (ONLY TEACHER)
     def create(self, request, *args, **kwargs):
 
-        if request.user.role != "teacher":
+        if getattr(request.user, "role", None) != "teacher":
             return Response(
                 {"error": "Only teachers can create assignments"},
-                status=403
+                status=status.HTTP_403_FORBIDDEN
             )
 
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
 
+        if not serializer.is_valid():
+            # 🔥 IMPORTANT: show real backend error to frontend
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        self.perform_create(serializer)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # ✅ attach owner automatically
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

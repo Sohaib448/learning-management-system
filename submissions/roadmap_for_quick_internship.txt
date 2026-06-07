@@ -1,0 +1,84 @@
+DAY 1 — Python + Django Setup
+DAY 2 — Models + Database + CRUD
+DAY 3 — Django REST Framework (MOST IMPORTANT)
+DAY 4 — Authentication
+DAY 5 — Build MAIN PROJECT
+
+
+DAY 7 — Second Project + Interview Prep
+Goal:
+
+Become internship-ready.
+
+BUILD MINI PROJECT
+Choose ONE:
+blog API
+expense tracker API
+e-commerce backend basics
+INTERVIEW PREP
+
+Prepare:
+
+explain Django structure
+explain APIs
+explain authentication
+explain your project
+MOST IMPORTANT THING
+
+By Sunday:
+
+you are NOT expected to be expert.
+
+You only need to show:
+
+learning ability
+practical work
+project mindset
+consistency
+
+That’s enough for startup internships.
+
+WHAT YOU SHOULD SAY TO YOUR FRIEND
+
+Say:
+
+“I’m learning Django backend seriously. I already built APIs/projects and I want practical experience. I may not know everything yet, but I learn fast and I’m committed.”
+
+That’s realistic and professional.
+
+BIGGEST MISTAKE TO AVOID
+
+Don’t try:
+
+Celery
+Docker
+Redis
+advanced scaling
+microservices
+
+THIS WEEK.
+
+Right now focus ONLY on:
+
+Django + DRF + CRUD + APIs + Auth
+
+That’s enough.
+
+FINAL HONEST ANSWER
+
+YES.
+
+It is completely possible.
+
+Especially because:
+
+you already have CS background
+AI specialization
+technical exposure
+project experience
+
+You are NOT starting from zero.
+
+If you seriously follow this roadmap for the next 7 days:
+
+you can absolutely become internship-ready at beginner level.

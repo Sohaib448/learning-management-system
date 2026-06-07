@@ -9,26 +9,30 @@ User = get_user_model()
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username", "email")
+        fields = ("username", "email", "role")
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ("username", "email", "role", "is_active", "is_staff")
+        fields = ("username", "email", "role", "is_active", "is_approved", "is_staff")
 
 
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
+
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    list_display = ("username", "email", "role", "is_staff", "is_active")
+    list_display = ("username", "email", "role", "is_approved", "is_active", "is_staff")
+
+    list_filter = ("role", "is_approved", "is_active")
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         ("Personal Info", {"fields": ("email", "role")}),
-        ("Permissions", {"fields": ("is_staff", "is_active", "is_superuser")}),
+        ("Approval System", {"fields": ("is_approved", "is_active")}),
+        ("Permissions", {"fields": ("is_staff", "is_superuser")}),
     )
 
     add_fieldsets = (

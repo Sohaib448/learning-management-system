@@ -10,6 +10,12 @@ class Submission(models.Model):
         ('late', 'Late'),
     ]
 
+    GRADE_CHOICES = [
+        ('good', 'Good'),
+        ('fair', 'Fair'),
+        ('excellent', 'Excellent'),
+    ]
+
     student = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -20,10 +26,12 @@ class Submission(models.Model):
         on_delete=models.CASCADE
     )
 
-    # ✅ TEXT SUBMISSION (optional now)
+    # ✅ NEW FIELDS (IMPORTANT)
+    student_username = models.CharField(max_length=150, blank=True, null=True)
+    roll_number = models.CharField(max_length=50, blank=True, null=True)
+
     submission_text = models.TextField(blank=True, null=True)
 
-    # ✅ FILE SUBMISSION (NEW)
     submission_file = models.FileField(
         upload_to='submissions/',
         blank=True,
@@ -34,6 +42,15 @@ class Submission(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default='submitted'
+    )
+
+    marks = models.IntegerField(null=True, blank=True)
+    remarks = models.TextField(blank=True, null=True)
+    grade = models.CharField(
+        max_length=20,
+        choices=GRADE_CHOICES,
+        null=True,
+        blank=True
     )
 
     submitted_at = models.DateTimeField(auto_now_add=True)
