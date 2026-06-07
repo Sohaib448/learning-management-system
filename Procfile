@@ -1,1 +1,1 @@
-WSGI_APPLICATION = 'core.wsgi.application'
+web: gunicorn core.wsgi:application

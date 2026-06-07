@@ -1,36 +1,32 @@
+const BASE_URL = "https://lms-backend-n36s.onrender.com";
 const token = localStorage.getItem("token");
 const role = localStorage.getItem("role");
-
-const BASE_URL = "https://lms-backend-n36s.onrender.com";
 
 if (!token || role !== "admin") {
     window.location.href = "index.html";
 }
 
-/* SAFE FETCH */
-async function safeFetch(url) {
+async function safeFetch(url, options = {}) {
     try {
         const res = await fetch(url, {
+            ...options,
             headers: {
-                "Authorization": "Bearer " + token
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
+                ...(options.headers || {})
             }
         });
 
-        const text = await res.text();
+        const data = await res.json().catch(() => null);
 
-        try {
-            return JSON.parse(text);
-        } catch {
-            return [];
-        }
-
+        if (!res.ok) return [];
+        return data || [];
     } catch (err) {
         console.error(err);
         return [];
     }
 }
 
-/* SECTION CONTROL */
 function showSection(section) {
     ["dashboardSection", "usersSection", "approvedUsersSection", "rejectedSection"]
         .forEach(id => document.getElementById(id).style.display = "none");
@@ -38,14 +34,12 @@ function showSection(section) {
     document.getElementById(section).style.display = "block";
 
     if (section === "usersSection") loadUsers();
-    if (section === "approvedUsersSection") loadApprovedUsers("student");
+    if (section === "approvedUsersSection") loadApprovedUsers?.();
     if (section === "rejectedSection") loadRejectedUsers?.();
     if (section === "dashboardSection") updateStats();
 }
 
-/* LOAD USERS */
 async function loadUsers() {
-
     const users = await safeFetch(`${BASE_URL}/api/users/`);
 
     const pendingUsers = users.filter(u =>
@@ -54,64 +48,46 @@ async function loadUsers() {
 
     const box = document.getElementById("users");
 
-    if (!pendingUsers.length) {
-        box.innerHTML = "<p>No pending requests</p>";
-        return;
-    }
-
-    box.innerHTML = pendingUsers.map(u => `
-        <div class="card-box mb-3">
-            <h5>${u.username} (${u.role})</h5>
-            <p>Email: ${u.email || "N/A"}</p>
-
-            <button onclick="approveUser(${u.id})">Approve</button>
-            <button onclick="rejectUser(${u.id})">Reject</button>
-        </div>
-    `).join("");
+    box.innerHTML = pendingUsers.length
+        ? pendingUsers.map(u => `
+            <div class="card-box mb-3">
+                <h5>${u.username} (${u.role})</h5>
+                <p>Email: ${u.email || "N/A"}</p>
+                <button onclick="approveUser(${u.id})">Approve</button>
+                <button onclick="rejectUser(${u.id})">Reject</button>
+            </div>
+        `).join("")
+        : "<p>No pending requests</p>";
 }
 
-/* APPROVE */
 async function approveUser(id) {
-    const res = await fetch(`${BASE_URL}/api/users/${id}/`, {
+    await fetch(`${BASE_URL}/api/users/${id}/`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({
-            is_approved: true,
-            is_active: true
-        })
+        body: JSON.stringify({ is_approved: true, is_active: true })
     });
 
-    if (res.ok) {
-        loadUsers();
-        updateStats();
-    }
+    loadUsers();
+    updateStats();
 }
 
-/* REJECT */
 async function rejectUser(id) {
-    const res = await fetch(`${BASE_URL}/api/users/${id}/`, {
+    await fetch(`${BASE_URL}/api/users/${id}/`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({
-            is_approved: false,
-            is_active: false,
-            status: "rejected"
-        })
+        body: JSON.stringify({ is_approved: false, is_active: false, status: "rejected" })
     });
 
-    if (res.ok) {
-        loadUsers();
-        updateStats();
-    }
+    loadUsers();
+    updateStats();
 }
 
-/* STATS */
 async function updateStats() {
     const users = await safeFetch(`${BASE_URL}/api/users/`);
 

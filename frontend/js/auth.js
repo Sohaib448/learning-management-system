@@ -1,8 +1,8 @@
+const BASE_URL = "https://lms-backend-n36s.onrender.com";
+
 async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-
-    const BASE_URL = "https://lms-backend-n36s.onrender.com";
 
     try {
         const response = await fetch(`${BASE_URL}/api/token/`, {
@@ -13,12 +13,17 @@ async function login() {
             body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         console.log("Backend response:", data);
 
-        if (data.access) {
+        if (!response.ok) {
+            document.getElementById("error").innerText =
+                data.detail || "Login failed";
+            return;
+        }
 
+        if (data.access) {
             localStorage.setItem("token", data.access);
 
             const role =
@@ -30,21 +35,16 @@ async function login() {
 
             localStorage.setItem("role", role);
 
-            if (role === "student") {
-                window.location.href = "student-dashboard.html";
-            } else if (role === "teacher") {
-                window.location.href = "teacher-dashboard.html";
-            } else {
-                window.location.href = "admin-dashboard.html";
-            }
-
-        } else {
-            document.getElementById("error").innerText =
-                data.detail || "Invalid login";
+            window.location.href =
+                role === "student"
+                    ? "student-dashboard.html"
+                    : role === "teacher"
+                    ? "teacher-dashboard.html"
+                    : "admin-dashboard.html";
         }
 
-    } catch (error) {
-        console.error("Login error:", error);
-        document.getElementById("error").innerText = "Server error";
-    }
+    }catch (error) {
+    console.error(error);
+    document.getElementById("error").innerText = "Server not responding";
+     }
 }
