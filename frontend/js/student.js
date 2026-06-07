@@ -1,15 +1,13 @@
 const token = localStorage.getItem("token");
 const role = localStorage.getItem("role");
 
-const BASE_URL = "http://127.0.0.1:8081";
+const BASE_URL = "https://lms-backend-n36s.onrender.com";
 
 if (!token || role !== "student") {
     window.location.href = "index.html";
 }
 
-/* =========================
-   SAFE FETCH
-========================= */
+/* SAFE FETCH */
 async function safeFetch(url, options = {}) {
     try {
         const res = await fetch(url, {
@@ -24,15 +22,11 @@ async function safeFetch(url, options = {}) {
 
         return await res.json();
 
-    } catch (err) {
-        console.error(err);
+    } catch {
         return [];
     }
 }
 
-/* =========================
-   INIT
-========================= */
 document.addEventListener("DOMContentLoaded", () => {
     showSection("dashboardSection");
     loadAssignments();
@@ -40,9 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStats();
 });
 
-/* =========================
-   NAVIGATION
-========================= */
+/* NAVIGATION */
 function showSection(section) {
     ["dashboardSection", "assignmentsSection", "submissionsSection"]
         .forEach(id => document.getElementById(id).style.display = "none");
@@ -50,9 +42,7 @@ function showSection(section) {
     document.getElementById(section).style.display = "block";
 }
 
-/* =========================
-   ASSIGNMENTS
-========================= */
+/* ASSIGNMENTS */
 async function loadAssignments() {
 
     const assignments = await safeFetch(`${BASE_URL}/api/assignment/`);
@@ -68,24 +58,17 @@ async function loadAssignments() {
         <div class="card-box mb-3">
             <h5>${a.title}</h5>
             <p>${a.description || ""}</p>
-            <p><b>Deadline:</b> ${a.deadline}</p>
 
-            <input type="file" id="file-${a.id}" class="form-control mb-2">
-
-            <button onclick="submitAssignment(${a.id})">
-                Submit
-            </button>
+            <input type="file" id="file-${a.id}">
+            <button onclick="submitAssignment(${a.id})">Submit</button>
         </div>
     `).join("");
 }
 
-/* =========================
-   SUBMIT
-========================= */
+/* SUBMIT */
 async function submitAssignment(id) {
 
     const file = document.getElementById(`file-${id}`).files[0];
-
     if (!file) return alert("Select file");
 
     const formData = new FormData();
@@ -104,56 +87,35 @@ async function submitAssignment(id) {
         loadAssignments();
         loadStudentSubmissions();
         updateStats();
-    } else {
-        alert("Submission failed");
     }
 }
 
-/* =========================
-   STUDENT SUBMISSIONS (SHOW MARKS + REMARKS)
-========================= */
+/* SUBMISSIONS */
 async function loadStudentSubmissions() {
 
     const data = await safeFetch(`${BASE_URL}/api/submissions/`);
     const box = document.getElementById("submissions");
 
-    if (!data.length) {
-        box.innerHTML = "<p>No submissions</p>";
-        return;
-    }
-
-    box.innerHTML = data.map(s => `
+    box.innerHTML = data.length ? data.map(s => `
         <div class="card-box mb-3">
-
             <h5>${s.assignment_title || "Assignment"}</h5>
-            <p><b>Status:</b> ${s.status}</p>
-
-            <p><b>Marks:</b> ${s.marks ?? "Pending"}</p>
-            <p><b>Remarks:</b> ${s.remarks ?? "Pending"}</p>
-
+            <p>Status: ${s.status}</p>
+            <p>Marks: ${s.marks ?? "Pending"}</p>
+            <p>Remarks: ${s.remarks ?? "Pending"}</p>
         </div>
-    `).join("");
+    `).join("") : "<p>No submissions</p>";
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 async function updateStats() {
-
     const assignments = await safeFetch(`${BASE_URL}/api/assignment/`);
     const submissions = await safeFetch(`${BASE_URL}/api/submissions/`);
 
-    const submitted = submissions.length;
-    const pending = assignments.length - submitted;
-
     document.getElementById("totalAssignments").innerText = assignments.length;
-    document.getElementById("submitted").innerText = submitted;
-    document.getElementById("pending").innerText = pending;
+    document.getElementById("submitted").innerText = submissions.length;
+    document.getElementById("pending").innerText = assignments.length - submissions.length;
 }
 
-/* =========================
-   LOGOUT
-========================= */
 function logout() {
     localStorage.clear();
     window.location.href = "index.html";
