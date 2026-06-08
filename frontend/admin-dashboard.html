@@ -14,6 +14,7 @@
     <a href="#" onclick="showSection('dashboardSection')">Dashboard</a>
     <a href="#" onclick="showSection('usersSection')">Pending Requests</a>
     <a href="#" onclick="showSection('approvedUsersSection')">Users</a>
+    <a href="#" onclick="showSection('rejectedSection')">Rejected</a>
     <a href="#" onclick="logout()">Logout</a>
 </div>
 
@@ -27,7 +28,7 @@
 
             <div class="col-md-4">
                 <div class="card-box" onclick="showSection('approvedUsersSection')">
-                    <h5>Total Users</h5>
+                    <h5>Total Approved Users</h5>
                     <p id="totalUsers">0</p>
                 </div>
             </div>
@@ -62,20 +63,26 @@
         <div id="users"></div>
     </div>
 
-    <!-- APPROVED -->
+    <!-- APPROVED USERS -->
     <div id="approvedUsersSection" style="display:none">
 
         <h3>Approved Users</h3>
 
         <div class="btn-group mb-3">
-            <button class="btn btn-primary" onclick="loadApprovedUsers('student')">Students</button>
-            <button class="btn btn-success" onclick="loadApprovedUsers('teacher')">Teachers</button>
+            <button class="btn btn-primary" onclick="loadApprovedUsers('student')">
+                Students
+            </button>
+
+            <button class="btn btn-success" onclick="loadApprovedUsers('teacher')">
+                Teachers
+            </button>
         </div>
 
-        <div id="approvedUsers"></div>
+        <!-- FIXED ID (IMPORTANT) -->
+        <div id="approvedUsersBox"></div>
     </div>
 
-    <!-- ❌ REJECTED -->
+    <!-- REJECTED -->
     <div id="rejectedSection" style="display:none">
         <h3>Rejected Requests</h3>
         <div id="rejectedUsers"></div>
