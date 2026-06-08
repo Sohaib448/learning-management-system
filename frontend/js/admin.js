@@ -6,6 +6,7 @@ if (!token || role !== "admin") {
     window.location.href = "index.html";
 }
 
+/* SAFE FETCH */
 async function safeFetch(url, options = {}) {
     try {
         const res = await fetch(url, {
@@ -27,6 +28,7 @@ async function safeFetch(url, options = {}) {
     }
 }
 
+/* SECTION CONTROL */
 function showSection(section) {
     ["dashboardSection", "usersSection", "approvedUsersSection", "rejectedSection"]
         .forEach(id => document.getElementById(id).style.display = "none");
@@ -34,11 +36,12 @@ function showSection(section) {
     document.getElementById(section).style.display = "block";
 
     if (section === "usersSection") loadUsers();
-    if (section === "approvedUsersSection") loadApprovedUsers?.();
+    if (section === "approvedUsersSection") loadApprovedUsers("student"); // default
     if (section === "rejectedSection") loadRejectedUsers?.();
     if (section === "dashboardSection") updateStats();
 }
 
+/* ---------------- PENDING USERS ---------------- */
 async function loadUsers() {
     const users = await safeFetch(`${BASE_URL}/api/users/`);
 
@@ -60,6 +63,39 @@ async function loadUsers() {
         : "<p>No pending requests</p>";
 }
 
+/* ---------------- APPROVED USERS (NEW FEATURE) ---------------- */
+async function loadApprovedUsers(type = "student") {
+    const users = await safeFetch(`${BASE_URL}/api/users/`);
+
+    const approvedUsers = users.filter(u => u.is_approved);
+
+    const filtered = approvedUsers.filter(u => u.role === type);
+
+    const box = document.getElementById("approvedUsersBox");
+
+    if (!box) return;
+
+    box.innerHTML = filtered.length
+        ? filtered.map(u => `
+            <div class="card-box mb-3">
+                <h5>${u.username}</h5>
+                <p>Role: ${u.role}</p>
+                <p>Email: ${u.email || "N/A"}</p>
+            </div>
+        `).join("")
+        : `<p>No approved ${type}s found</p>`;
+}
+
+/* TAB BUTTON HANDLERS */
+function showApprovedStudents() {
+    loadApprovedUsers("student");
+}
+
+function showApprovedTeachers() {
+    loadApprovedUsers("teacher");
+}
+
+/* ---------------- APPROVE / REJECT ---------------- */
 async function approveUser(id) {
     await fetch(`${BASE_URL}/api/users/${id}/`, {
         method: "PATCH",
@@ -81,13 +117,18 @@ async function rejectUser(id) {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({ is_approved: false, is_active: false, status: "rejected" })
+        body: JSON.stringify({
+            is_approved: false,
+            is_active: false,
+            status: "rejected"
+        })
     });
 
     loadUsers();
     updateStats();
 }
 
+/* ---------------- STATS ---------------- */
 async function updateStats() {
     const users = await safeFetch(`${BASE_URL}/api/users/`);
 
@@ -102,6 +143,7 @@ async function updateStats() {
 
 document.addEventListener("DOMContentLoaded", updateStats);
 
+/* ---------------- LOGOUT ---------------- */
 function logout() {
     localStorage.clear();
     window.location.href = "index.html";
