@@ -85,16 +85,16 @@ python manage.py runserver
 ## Screenshots
 
 **Admin** — Login / Dashboard
-![Admin Login](demo5.png)
-![Admin Dashboard](demo.png)
+![Admin Login](demo5.PNG)
+![Admin Dashboard](demo.PNG)
 
 **Teacher** — Login / Dashboard
-![Teacher Login](demo3.png)
-![Teacher Dashboard](demo4.png)
+![Teacher Login](demo3.PNG)
+![Teacher Dashboard](demo4.PNG)
 
 **Student** — Login / Dashboard
-![Student Login](demo1.png)
-![Student Dashboard](demo2.png)
+![Student Login](demo1.PNG)
+![Student Dashboard](demo2.PNG)
 
 ## Deployment
 
