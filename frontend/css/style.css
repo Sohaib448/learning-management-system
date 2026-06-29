@@ -192,3 +192,63 @@ select option {
     color: #111111;
 }
 
+/* ================================
+   SAFE RESPONSIVE PATCH (NO BREAK)
+================================ */
+
+@media (max-width: 768px) {
+
+    /* keep sidebar usable but not broken */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+    }
+
+    /* main content always readable */
+    .main {
+        margin-left: 0 !important;
+        padding: 12px !important;
+    }
+
+    /* dashboard rows stack safely */
+    .row {
+        display: block !important;
+    }
+
+    .col-md-4 {
+        width: 100% !important;
+        margin-bottom: 12px;
+    }
+
+    /* cards stay readable */
+    .card-box {
+        width: 100% !important;
+    }
+
+    /* prevent text overflow */
+    body {
+        overflow-x: hidden !important;
+    }
+
+    /* inputs become touch friendly */
+    input, select, button {
+        font-size: 16px !important;
+    }
+}
+
+/* very small devices */
+@media (max-width: 480px) {
+
+    .login-container,
+    .card {
+        width: 95% !important;
+        margin: auto;
+    }
+
+    .title {
+        font-size: 20px !important;
+    }
+}
